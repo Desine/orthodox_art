@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Православное искусство</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="{% static 'script.js' %}" defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <div class="header-name">
+          <h1>Дмитрий Федоров</h1>
+          <p>ПРАВОСЛАВНОЕ ИСКУССТВО</p>
+        </div>
+
+        <nav class="header-nav">
+          <ul>
+            <li><a href="{% url 'app:master' %}">МАСТЕР</a></li>
+            <li><a href="{% url 'app:catalog' %}">КАТАЛОГ</a></li>
+            <li><a href="{% url 'app:life' %}">LIFE</a></li>
+            <li><a href="{% url 'app:contacts' %}">КОНТАКТЫ</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-contact">
+          <a href="tel:+79998086548">+7 (999) 808 65 48</a>
+        </div>
+
+        <div class="header-icons">
+          <a href="https://wa.me/79998086548" class="icon-link">
+            <img
+              src="{% static 'images/WhatsApp.svg' %}"
+              alt="WhatsApp"
+              class="header-icon"
+            />
+          </a>
+          <a href="#" class="icon-link">
+            <img
+              src="{% static 'images/Cart.svg' %}"
+              alt="Корзина"
+              class="header-icon"
+            />
+          </a>
+          <a href="#" class="icon-link">
+            <img
+              src="{% static 'images/Profile.svg' %}"
+              alt="Профиль"
+              class="header-icon"
+            />
+          </a>
+          <a href="#" class="icon-link">
+            <img
+              src="{% static 'images/Menu.svg' %}"
+              alt="Меню"
+              class="header-icon"
+            />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>{% block content %} {% endblock %}</main>
+  </body>
+</html>

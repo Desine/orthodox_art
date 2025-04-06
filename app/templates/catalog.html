@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %} {% block content %}
+{% load my_filters %}
+
+
+<div class="catalog-block">
+  <div>FILTERS</div>
+
+  <div class="catalog">
+    {% for product in products %} {% if product.available_amount > 0 %}
+    <div class="catalog-item">
+      <img src="{{ product.images.first.url }}" alt="" />
+      <p class="catalog-item-materials">
+          {% for product_material in product.productmaterial_set.all %}
+          {{product_material.material.name}} 
+          {% if forloop.revcounter0 == 1 %} и {% elif not forloop.last %}, {% endif %} {% empty %} 
+          ОШИБКА, НЕТ МАТЕРИАЛОВ
+          {% endfor %}
+      </p>
+      <p class="catalog-item-price">{{ product.price|format_price }} Р</p>
+      <div class="catalog-item-more_details">ПОДРОБНЕЕ</div>
+    </div>
+    {% endif %} {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
