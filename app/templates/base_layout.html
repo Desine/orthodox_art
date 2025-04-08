@@ -9,7 +9,7 @@
     <script src="{% static 'script.js' %}" defer></script>
   </head>
   <body>
-    <header class="header">
+    <header>
       <div class="header-content">
         <div class="header-name">
           <h1>Дмитрий Федоров</h1>
@@ -63,5 +63,162 @@
     </header>
 
     <main>{% block content %} {% endblock %}</main>
+
+    <footer>
+      <div class="footer-container footer-column-main">
+        <div class="footer-column">
+          <ul class="footer-links">
+            <li><a href="#">Мастер</a></li>
+            <li><a href="#">Каталог</a></li>
+            <li><a href="#">Контакты</a></li>
+            <li><a href="#">LIFE</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <ul class="footer-links footer-column-secondary gray">
+            <li><a href="#">Гарантия</a></li>
+            <li><a href="#">Сертификаты</a></li>
+            <li><a href="#">Карта сайта</a></li>
+            <li><a href="#">Подписка на новости</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column footer-column-contacts">
+          <div class="footer-contacts">
+            <a href="tel:+79998086548">+7 (999) 808 65 48</a>
+            <p class="work-hours gray">Пн-пт: с 10:00 до 19:00 ч</p>
+            <div class="footer-icons gray">
+              <a href="https://wa.me/79998086548" class="icon-link">
+                <img
+                  src="{% static 'images/WhatsApp.svg' %}"
+                  alt="WhatsApp"
+                  class="footer-icon"
+                />
+              </a>
+              <a href="https://wa.me/79998086548" class="icon-link">
+                <img
+                  src="{% static 'images/WhatsApp.svg' %}"
+                  alt="WhatsApp"
+                  class="footer-icon"
+                />
+              </a>
+              <a href="https://wa.me/79998086548" class="icon-link">
+                <img
+                  src="{% static 'images/WhatsApp.svg' %}"
+                  alt="WhatsApp"
+                  class="footer-icon"
+                />
+              </a>
+            </div>
+            <p class="copyright gray">© 2020 Дмитрий Федоров</p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
+
+<style>
+  header {
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header-name h1 {
+    font-size: 24px;
+    font-weight: normal;
+    letter-spacing: 2px;
+  }
+
+  .header-name p {
+    font-size: 16px;
+    margin: 5px 0 0 0;
+    letter-spacing: 1px;
+  }
+
+  .header-nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+  }
+
+  .header-nav a {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .header-contact a {
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .header-icons {
+    display: flex;
+    gap: 30px;
+  }
+
+  /* 
+
+
+
+
+
+
+
+
+
+*/
+
+  footer {
+  }
+
+  .footer-container {
+    display: flex;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 20px;
+  }
+
+  .footer-contacts {
+    text-align: right;
+  }
+
+  .work-hours {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e1e1;
+  }
+
+  .copyright {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+  }
+  .footer-column-main {
+  }
+  .footer-column-secondary {
+    margin-left: 150px;
+  }
+  .footer-column-contacts {
+    margin-left: auto;
+  }
+</style>

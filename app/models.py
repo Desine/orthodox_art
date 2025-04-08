@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=False)
+    care = models.TextField(null=True, blank=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available_amount = models.IntegerField()
     
@@ -29,21 +31,21 @@ class Material(models.Model):
         return self.name
         
 class ProductType(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='types')
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     
     class Meta:
         unique_together = ('product', 'type')
 
 class ProductSize(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sizes')
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     
     class Meta:
         unique_together = ('product', 'size')
 
 class ProductMaterial(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='materials')
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     
     class Meta:

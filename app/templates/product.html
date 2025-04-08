@@ -1,0 +1,248 @@
+{% extends 'base_layout.html' %} {% block content %}
+<div class="product-page">
+  <div class="product-container">
+    <div class="product-gallery">
+      <div class="main-image">
+        <img src="{{ product.images.first.url }}" alt="ФОТО ПОТРАЧЕНО" />
+      </div>
+      <div class="thumbnails">
+        {% for image in product.images.all %} 
+        {% if image != product.images.first %}
+        <div class="thumbnail">
+          <img src="{{ image.url }}" alt="ФОТО ПОТРАЧЕНО" />
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 class="product-title">{{ product.name }}</h1>
+
+      <div class="product-price">{{ product.price }}</div>
+
+      <div class="product-attributes">
+        <div class="attribute">
+          <span class="attribute-name">
+            {% for product_material in product.materials.all %}
+            {{product_material.material.name}} 
+            {% if forloop.revcounter0 == 1 %} и {% elif not forloop.last %}, {% endif %} 
+            {% empty %} 
+            ОШИБКА, НЕТ МАТЕРИАЛОВ 
+            {% endfor %}
+          </span>
+          <span class="attribute-value">утренней пробы</span>
+        </div>
+        <div class="attribute">
+          <span class="attribute-name">Размер</span>
+          <span class="attribute-value"></span>
+        </div>
+        <div class="attribute">
+          <span class="attribute-name">А всё</span>
+          <span class="attribute-value">Ещё чего?</span>
+        </div>
+      </div>
+
+      <div class="product-actions">
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <button class="add-to-cart-btn">В корзину</button>
+      </div>
+
+      <div class="product-tabs">
+        <button class="tab-btn active" data-tab="description">ОПИСАНИЕ</button>
+        <button class="tab-btn" data-tab="warranty">ГАРАНТИИ</button>
+        <button class="tab-btn" data-tab="care">УХОД ЗА ИЗДЕЛИЕМ</button>
+      </div>
+
+      <div class="product-tab-content active" id="description">
+        <p>{{ product.description }}</p>
+      </div>
+
+      <div class="product-tab-content" id="warranty">
+        <p>Гарантия производителя 1 год.</p>
+      </div>
+
+      <div class="product-tab-content" id="care">
+        <p>{{ product.care }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .product-container {
+    display: flex;
+    gap: 40px;
+  }
+
+  .product-gallery {
+    flex: 1;
+  }
+
+  .main-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    margin-bottom: 15px;
+  }
+
+  .thumbnails {
+    display: flex;
+    gap: 10px;
+  }
+
+  .thumbnail img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .product-info {
+    flex: 1;
+  }
+
+  .product-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  .product-price {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  .product-attributes {
+    margin-bottom: 30px;
+  }
+
+  .attribute {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .attribute-name {
+    color: #666;
+  }
+
+  .product-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .quantity-btn {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .quantity {
+    width: 30px;
+    text-align: center;
+  }
+
+  .add-to-cart-btn {
+    padding: 12px 30px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .product-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+  }
+
+  .tab-btn.active {
+    color: #000;
+    border-bottom: 2px solid #000;
+  }
+
+  .product-tab-content {
+    display: none;
+  }
+
+  .product-tab-content.active {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Переключение табов
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    tabBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        // Удаляем active у всех кнопок и контента
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll(".product-tab-content")
+          .forEach((c) => c.classList.remove("active"));
+
+        // Добавляем active к текущей кнопке и соответствующему контенту
+        this.classList.add("active");
+        const tabId = this.getAttribute("data-tab");
+        document.getElementById(tabId).classList.add("active");
+      });
+    });
+
+    // Управление количеством
+    const minusBtn = document.querySelector(".quantity-btn.minus");
+    const plusBtn = document.querySelector(".quantity-btn.plus");
+    const quantityDisplay = document.querySelector(".quantity");
+
+    minusBtn.addEventListener("click", function () {
+      let quantity = parseInt(quantityDisplay.textContent);
+      if (quantity > 1) {
+        quantityDisplay.textContent = quantity - 1;
+      }
+    });
+
+    plusBtn.addEventListener("click", function () {
+      let quantity = parseInt(quantityDisplay.textContent);
+      quantityDisplay.textContent = quantity + 1;
+    });
+  });
+</script>
+{% endblock %}

@@ -1,26 +1,189 @@
-{% extends 'base_layout.html' %} {% block content %}
-{% load my_filters %}
+{% extends 'base_layout.html' %} {% block content %} {% load my_filters %}
 
+<div class="filters-container">
+  <div class="filters-availability">
+    <a
+      href="?availability=in_stock"
+      class="filter-btn {% if request.GET.availability == 'in_stock' %}active{% endif %}"
+      >В наличии</a
+    >
+    <a
+      href="?availability=on_order"
+      class="filter-btn {% if request.GET.availability == 'on_order' %}active{% endif %}"
+      >На заказ</a
+    >
+  </div>
+
+  <span class="filter-divider">|</span>
+
+  <div class="filters-type">
+    <a
+      href="?"
+      class="filter-btn {% if not request.GET.availability %}active{% endif %}"
+      >Все</a
+    >
+    <a
+      href="?category=crosses"
+      class="filter-btn {% if request.GET.category == 'crosses' %}active{% endif %}"
+      >Кресты</a
+    >
+    <a
+      href="?category=pendants"
+      class="filter-btn {% if request.GET.category == 'pendants' %}active{% endif %}"
+      >Подвески</a
+    >
+    <a
+      href="?category=bracelets"
+      class="filter-btn {% if request.GET.category == 'bracelets' %}active{% endif %}"
+      >Браслеты</a
+    >
+    <a
+      href="?category=cords_chains"
+      class="filter-btn {% if request.GET.category == 'cords_chains' %}active{% endif %}"
+      >Шнуры и цепи</a
+    >
+  </div>
+
+  <div class="filters-sort">
+    <a
+      href="?material=gold"
+      class="filter-btn {% if request.GET.material == 'gold' %}active{% endif %}"
+      >Золото</a
+    >
+    <a
+      href="?"
+      class="filter-btn {% if not request.GET.material %}active{% endif %}"
+      >Все</a
+    >
+
+    <a
+      href="?sort=price"
+      class="filter-btn {% if request.GET.sort == 'price' %}active{% endif %}"
+      >По цене</a
+    >
+  </div>
+</div>
 
 <div class="catalog-block">
-  <div>FILTERS</div>
-
   <div class="catalog">
     {% for product in products %} {% if product.available_amount > 0 %}
     <div class="catalog-item">
       <img src="{{ product.images.first.url }}" alt="" />
       <p class="catalog-item-materials">
-          {% for product_material in product.productmaterial_set.all %}
-          {{product_material.material.name}} 
-          {% if forloop.revcounter0 == 1 %} и {% elif not forloop.last %}, {% endif %} {% empty %} 
-          ОШИБКА, НЕТ МАТЕРИАЛОВ
-          {% endfor %}
+        {% for product_material in product.materials.all %}
+        {{product_material.material.name}} {% if forloop.revcounter0 == 1 %} и
+        {% elif not forloop.last %}, {% endif %} {% empty %} ОШИБКА, НЕТ
+        МАТЕРИАЛОВ {% endfor %}
       </p>
       <p class="catalog-item-price">{{ product.price|format_price }} Р</p>
-      <div class="catalog-item-more_details">ПОДРОБНЕЕ</div>
+      <a
+        class="catalog-item-more_details"
+        href="{% url 'app:product' product.pk %}"
+        >ПОДРОБНЕЕ</a
+      >
     </div>
     {% endif %} {% endfor %}
   </div>
 </div>
+
+<style>
+  .filters-container {
+    margin: 15px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+
+    background: #f2f2f2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filters-availability {
+  }
+  .filters-type {
+  }
+  .filters-sort {
+    margin-left: auto;
+  }
+
+  .filter-btn {
+    padding: 5px 10px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .filter-divider {
+    color: #ccc;
+    padding: 0 5px;
+  }
+
+  /* 
+
+
+
+
+
+
+
+
+*/
+
+  .catalog-block {
+  }
+
+  .catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+  }
+
+  .catalog-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 50px;
+    text-align: center;
+  }
+
+  .catalog-item:hover {
+    .catalog-item-more_details {
+      display: block;
+    }
+  }
+
+  .catalog-item img {
+    max-width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+  }
+
+  .catalog-item-materials {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .catalog-item-price {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .catalog-item-more_details {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+  }
+</style>
 
 {% endblock %}
